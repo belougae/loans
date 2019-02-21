@@ -26,6 +26,7 @@ class CreateMerchantsTable extends Migration
             $table->string('label_second')->nullable()->comment('标签2');
             $table->string('label_third')->nullable()->comment('标签3');
             $table->unsignedInteger('count_click')->default(0)->comment('点击数');
+            $table->unsignedInteger('week_loan')->default(0)->comment('本周下款人数');
             $table->timestamps();
         });
         \DB::statement("ALTER TABLE `merchants` comment '商户信息登记表'");

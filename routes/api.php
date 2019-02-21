@@ -29,4 +29,11 @@ $api->version('v1', [
         // 用户登录
         $api->post('users', 'UserController@store')->name('api.users.store');
     });
+    // 登录
+    $api->post('authorizations', 'AuthorizationsController@store')
+    ->name('api.authorizations.store');
+    $api->get('merchants/today_recommend', 'MerchantController@todayRecommend');//
+    $api->get('merchants/new_loan_king', 'MerchantController@newLoanKing');//
+    $api->get('merchants/new_holes', 'MerchantController@newHoles');
+    $api->resource('merchants', 'MerchantController');
 });
