@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\Api\UserRequest;
 
@@ -34,5 +35,10 @@ class UserController extends Controller
             'access_token' => \Auth::guard('api')->fromUser($user),
             'token_type' => 'Bearer',
         ]);
+    }
+    public function logout()
+    {
+        Auth::guard('api')->logout();
+        return $this->response->noContent();
     }
 }

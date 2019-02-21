@@ -28,6 +28,7 @@ $api->version('v1', [
         $api->post('verificationCodes', 'VerificationCodesController@store')->name('api.verificationCodes.store');
         // 用户登录
         $api->post('users', 'UserController@store')->name('api.users.store');
+        $api->get('users/logout', 'UserController@logout');
     });
     // 登录
     $api->post('authorizations', 'AuthorizationsController@store')

@@ -2,11 +2,14 @@
 
 namespace App\Transformers;
 
+use Dingo\Api\Routing\Helpers;
+use App\Http\Controllers\Api\Controller;
 use App\Models\Merchant;
 use League\Fractal\TransformerAbstract;
 
 class MerchantTransformer extends TransformerAbstract
 {
+    use Helpers;
     public function transform(Merchant $merchant)
     {
         return [
@@ -16,7 +19,7 @@ class MerchantTransformer extends TransformerAbstract
             'max_limit' => $merchant->max_limit,
             'description' => $merchant->description,
             'rate' => $merchant->rate,
-            'url' => $merchant->url,
+            'url' => $this->user() ? $merchant->url : 'http://loans.test/platform',
             'label_first' => $merchant->label_first,
             'label_second' => $merchant->label_second,
             'label_third' => $merchant->label_third,

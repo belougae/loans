@@ -6,7 +6,7 @@ use Carbon\Carbon;
 $factory->define(App\Models\Merchant::class, function (Faker $faker) {
     $now = Carbon::now()->toDateTimeString();
     return [
-        'thumbnail' => $faker->url,
+        'thumbnail' => 'https://daipub.oss-cn-beijing.aliyuncs.com/upload/201902/20190221/105222165.jpg',
         'key_name' => $faker->name,
         'name' => $faker->name,
         'max_limit' => 2000,
