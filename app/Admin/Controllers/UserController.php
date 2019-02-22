@@ -86,8 +86,23 @@ class UserController extends Controller
         $grid->device_type('设备类型');
         $grid->status('状态');
         $grid->channel_id('渠道');
-        $grid->created_at('注册时间');
+        $grid->created_at('注册时间')->sortable();
         $grid->updated_at('最近活跃时间');
+        $grid->filter(function($filter){
+            $filter->column(1/2, function ($filter) {
+                // Remove the default id filter
+                $filter->disableIdFilter();
+                $filter->like('phone', '手机电话');
+                $filter->like('status', '状态');
+            });
+            $filter->column(1/2, function ($filter) {
+                $filter->like('device_type', '设备状态');
+                $filter->between('created_at', '创建时间')->datetime();
+                $filter->equal('channel_id', '渠道')->select('api/users');
+
+            });
+        
+        });
 
         return $grid;
     }
