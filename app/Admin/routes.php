@@ -12,5 +12,7 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->resource('users', 'UserController');
+    $router->resource('merchants', 'MerchantController');
+    $router->resource('pictures', 'PictureController');
 
 });
