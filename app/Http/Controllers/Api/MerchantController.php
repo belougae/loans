@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Picture;
 use App\Models\User;
 use App\Transformers\MerchantTransformer;
 use Illuminate\Http\Request;
@@ -12,17 +13,10 @@ class MerchantController extends Controller
 {
     public function index()
     {
-        // Auth::guard('api')->logout();
         \Cache::increment('count:count_visit', 1);
         $meta['hot_ad'] = '建议申请3家以上，100% 一小时内到帐';
         $meta['count_visit'] = \Cache::get('count:count_visit');;
-        $meta['top_banner'] = [
-            'https://daipub.oss-cn-beijing.aliyuncs.com/upload/201901/20190104/105257553.png',
-            'https://daipub.oss-cn-beijing.aliyuncs.com/upload/201901/20190104/105310419.png',
-            'https://daipub.oss-cn-beijing.aliyuncs.com/upload/201901/20190104/105322179.png',
-            'https://daipub.oss-cn-beijing.aliyuncs.com/upload/201902/20190221/133908390.jpg',
-            'https://daipub.oss-cn-beijing.aliyuncs.com/upload/201812/20181228/145131440.png'
-        ];
+        $meta['index_top_banner'] = Picture::where('type', 1)->get()->pluck('thumbnail');
         $meta['navigation_bar'] = [
             [
                 'name' => '本周下款王',
