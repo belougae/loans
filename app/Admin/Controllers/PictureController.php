@@ -81,7 +81,10 @@ class PictureController extends Controller
         $grid->thumbnail('图片')->image(config('app.url').'/uploads', 200, 200);
         $grid->name('图片名称');
         $grid->url('图片URL');
-        $grid->type('图片类型');
+        // $grid->type('图片类型');
+        $grid->column('type', ' 图片类型')->display(function ($value) {
+            return Picture::$bannerTypeMap[$value];
+        });
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
@@ -102,7 +105,9 @@ class PictureController extends Controller
         $show->thumbnail('图片')->image(config('app.url').'/uploads/', 200, 200);
         $show->name('名称');
         $show->url('URL');
-        $show->type('类型');
+        $show->type('类型')->as(function ($value) {
+            return Picture::$bannerTypeMap[$value];
+        });
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
 
@@ -121,8 +126,7 @@ class PictureController extends Controller
         $form->image('thumbnail', '图片')->move('/images/banners');
         $form->text('name', '图片名称');
         $form->url('url', '图片URL');
-        $form->switch('type', '图片类型');
-
+        $form->select('type', '图片类型')->options([ '其他', '首页顶部', '首页导航栏', '最新下款王']);
         return $form;
     }
 }
