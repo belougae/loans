@@ -98,7 +98,7 @@ class UserController extends Controller
             $filter->column(1/2, function ($filter) {
                 $filter->like('device_type', '设备状态');
                 $filter->between('created_at', '创建时间')->datetime();
-                $filter->equal('channel_id', '渠道')->select('api/users');
+                $filter->equal('channel_id', '商户')->select('merchants/group');
 
             });
         

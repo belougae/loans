@@ -29,6 +29,7 @@ $api->version('v1', [
         // 用户登录
         $api->post('users', 'UserController@store')->name('api.users.store');
         $api->get('users/logout', 'UserController@logout');
+        $api->post('merchants/clicks', 'MerchantController@clicks');
     });
     // 登录
     $api->post('authorizations', 'AuthorizationsController@store')

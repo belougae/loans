@@ -148,4 +148,13 @@ class MerchantController extends Controller
 
         return $form;
     }
+
+    // 商户列表
+    public function merchantGroup()
+    {
+        $collection  =  Merchant::get()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+        return $collection->toArray();
+    }
 }

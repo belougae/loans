@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c18aacfd61e55ad2f17f995a4b6816c7",
+    "content-hash": "dec65c7c36b33f5ccb54536e22324676",
     "packages": [
         {
             "name": "dingo/api",
@@ -1983,6 +1983,65 @@
                 }
             ],
             "time": "2017-07-14T14:27:02+00:00"
+        },
+        {
+            "name": "pigzzz123/adminlte3",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pigzzz123/adminlte3.git",
+                "reference": "36567bc590834538cc90366b0e54d62f2d708911"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pigzzz123/adminlte3/zipball/36567bc590834538cc90366b0e54d62f2d708911",
+                "reference": "36567bc590834538cc90366b0e54d62f2d708911",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pigzzz\\Adminlte\\AdminlteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pigzzz\\Adminlte\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "pigzzz123",
+                    "email": "205270006@qq.com"
+                }
+            ],
+            "description": "AdminLTE3 extension for laravel-admin",
+            "homepage": "https://github.com/pigzzz123/adminlte3",
+            "keywords": [
+                "adminlte3",
+                "extension",
+                "laravel-admin"
+            ],
+            "time": "2019-02-11T07:44:33+00:00"
         },
         {
             "name": "predis/predis",

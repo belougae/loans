@@ -312,6 +312,39 @@ return [
     |
     */
     'extensions' => [
-
-    ],
+        'adminlte' => [
+            'theme' => [
+                /*
+                |--------------------------------------------------------------------------
+                |Navbar Theme
+                |--------------------------------------------------------------------------
+                |    "bg-primary", "bg-info", "bg-success", "bg-danger"
+                |    "bg-warning", "bg-white", "bg-gray-light"
+                */
+                
+                'navbar'    => 'bg-white',
+                
+                /*
+                |--------------------------------------------------------------------------
+                |Sidebar Theme
+                |--------------------------------------------------------------------------
+                |    "sidebar-dark-primary", "sidebar-dark-warning", "sidebar-dark-info", "sidebar-dark-danger", "sidebar-dark-success"
+                |    "sidebar-light-primary", "sidebar-light-warning", "sidebar-light-info", "sidebar-light-danger", "sidebar-light-success"
+                */
+                
+                'sidebar'   => 'sidebar-dark-primary',
+                
+                /*
+                |--------------------------------------------------------------------------
+                |LOGO Theme
+                |--------------------------------------------------------------------------
+                |    "bg-primary", "bg-info", "bg-success", "bg-danger"
+                |    "bg-warning", "bg-white", "bg-gray-light"
+                */
+                
+                'logo'      => ''
+            ]
+        ]
+    ]
+    
 ];
