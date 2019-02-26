@@ -2,7 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Redis;
 use App\Models\MerchantStatistic;
+use App\Models\Merchant;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -96,7 +99,7 @@ class MerchantStatisticController extends Controller
                 $filter->disableIdFilter();
                 // 设置datetime类型
                 $filter->between('created_at', '创建时间')->datetime();
-                $filter->equal('channel_id', '渠道')->select('api/users');
+                $filter->equal('channel_id', '渠道')->select('merchants/group');
             });
             $filter->column(1/2, function ($filter) {
 
@@ -140,4 +143,31 @@ class MerchantStatisticController extends Controller
 
         return $form;
     }
+
+    // 商户统计定时
+    public function timing()
+    {
+        $at = Carbon::now()->toDateTimeString();
+        $now = Carbon::now()->toDateString();
+        // 当天存在数据的商户的 key
+        foreach (Redis::keys('channel_clicks:'.$now.':*') as $merchantKey) {
+            $merchantexplod = explode(':', $merchantKey); 
+            $merchantCount = Redis::scard($merchantKey);
+            $result = MerchantStatistic::where('statistic_at', $now)->where('merchant_id', $merchantexplod[2])->get();
+            if(!count($result)){
+                $merchantStatistic = MerchantStatistic::insert([
+                'count' => $merchantCount,
+                'merchant_id' => $merchantexplod[2],
+                'created_at' => $at,
+                'statistic_at' => $now
+                ]);
+            }else{
+                $merchantStatistic = MerchantStatistic::where('statistic_at', $now)->where('merchant_id', $merchantexplod[2])->update([
+                    'count' => $merchantCount,
+                    'updated_at' => $at
+                    ]);
+            }
+        }
+
+    }    
 }

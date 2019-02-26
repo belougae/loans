@@ -21,8 +21,7 @@ class UserController extends Controller
         }
         if(!$user = User::where('phone', $verifyData['phone'])->first()){
             $user = User::create([
-                        'phone' => 17682310110,
-                        // 'phone' => $verifyData['phone'],
+                        'phone' => $verifyData['phone'],
                     ]);
         }
 

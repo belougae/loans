@@ -60,7 +60,7 @@ class MerchantController extends Controller
     public function clicks(Request $request)
     {
         // etc: channel_clicks:2019-02-22(日期):1（channel_id）
-        Redis::set('channel_clicks'.':'.Carbon::now()->toDateString().':'.$request->channel_id, $this->user()->phone);
+        Redis::sadd('channel_clicks'.':'.Carbon::now()->toDateString().':'.$request->channel_id, $this->user()->phone);
         return $this->response->noContent();
     }
 }

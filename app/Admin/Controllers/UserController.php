@@ -90,7 +90,6 @@ class UserController extends Controller
         $grid->updated_at('最近活跃时间');
         $grid->filter(function($filter){
             $filter->column(1/2, function ($filter) {
-                // Remove the default id filter
                 $filter->disableIdFilter();
                 $filter->like('phone', '手机电话');
                 $filter->like('status', '状态');
@@ -98,7 +97,7 @@ class UserController extends Controller
             $filter->column(1/2, function ($filter) {
                 $filter->like('device_type', '设备状态');
                 $filter->between('created_at', '创建时间')->datetime();
-                $filter->equal('channel_id', '商户')->select('merchants/group');
+                // $filter->equal('channel_id', '渠道')->select('');
 
             });
         

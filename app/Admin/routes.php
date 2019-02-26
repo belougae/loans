@@ -12,6 +12,7 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->get('merchants/group', 'MerchantController@merchantGroup')->name('merchants.group');
+    $router->get('merchants/timing', 'MerchantStatisticController@timing')->name('merchants.timing');
     $router->resource('users', 'UserController');
     $router->resource('merchants', 'MerchantController');
     $router->resource('pictures', 'PictureController');
