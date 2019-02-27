@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redis;
 use App\Models\MerchantStatistic;
@@ -12,6 +13,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
 
 class MerchantStatisticController extends Controller
 {
@@ -27,7 +29,7 @@ class MerchantStatisticController extends Controller
     {
         return $content
             ->header('商户访问统计')
-            ->body($this->grid());
+            ->body($this->totalGrid());
     }
 
     /**
@@ -79,7 +81,7 @@ class MerchantStatisticController extends Controller
      *
      * @return Grid
      */
-    protected function grid()
+    protected function totalGrid()
     {
         $grid = new Grid(new MerchantStatistic);
         // 关掉批量删除操作
@@ -93,18 +95,15 @@ class MerchantStatisticController extends Controller
         $grid->disableRowSelector();
         
         $grid->expandFilter();
-
-        $grid->id('Id');
+        $grid->model()->groupBy('merchant_id')->select([DB::raw("sum(count) as total"),'merchant_id']);
         $grid->merchant_id('商户名')->display(function ($value) {
-            return "{$this->merchant->name}:{$this->merchant->key_name}" ;
+            return $this->merchant->name ;
         });
-        $grid->statistic_at('日期');
-        $grid->count('累计次数');
-        $grid->actions(function ($actions) {
-            $actions->disableView();
-            $actions->disableDelete();
+        $grid->disableActions();
+        // 不存的字段列
+        $grid->column('counts', '合计次数')->display(function () {
+            return $this->total;
         });
-        
         $grid->filter(function($filter){
             $filter->column(1/2, function ($filter) {
                 // Remove the default id filter

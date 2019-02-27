@@ -37,8 +37,7 @@ class UserController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('用户详情')
             ->body($this->detail($id));
     }
 
@@ -52,8 +51,7 @@ class UserController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('用户编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -83,7 +81,7 @@ class UserController extends Controller
         $grid->id('Id');
         $grid->name('用户姓名');
         $grid->phone('手机号码');
-        $grid->device_type('设备类型');
+        // $grid->device_type('设备类型');
         $grid->status('状态');
         $grid->channel_id('渠道');
         $grid->created_at('注册时间')->sortable();
@@ -115,14 +113,9 @@ class UserController extends Controller
     protected function detail($id)
     {
         $show = new Show(User::findOrFail($id));
-
-        $show->id('Id');
-        $show->name('Name');
-        $show->phone('Phone');
-        $show->remember_token('Remember token');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
-
+        $show->name('用户名');
+        $show->phone('手机号码');
+        $show->created_at('注册时间');
         return $show;
     }
 
@@ -134,11 +127,18 @@ class UserController extends Controller
     protected function form()
     {
         $form = new Form(new User);
-
-        $form->text('name', 'Name');
-        $form->mobile('phone', 'Phone');
-        $form->text('remember_token', 'Remember token');
-
+        $form->text('name', '用户名');
+        $form->mobile('phone', '手机号码');
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`删除`按钮
+            $tools->disableDelete();
+        });
+        $form->footer(function ($footer) {
+            // 去掉`继续创建`checkbox
+            $footer->disableCreatingCheck();
+        
+        });
         return $form;
     }
+    
 }
