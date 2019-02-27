@@ -82,11 +82,23 @@ class MerchantStatisticController extends Controller
     protected function grid()
     {
         $grid = new Grid(new MerchantStatistic);
+        // 关掉批量删除操作
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+        $grid->disableCreateButton();
+        $grid->disableExport();
+        $grid->disableRowSelector();
+        
+        $grid->expandFilter();
 
         $grid->id('Id');
         $grid->merchant_id('商户名')->display(function ($value) {
             return "{$this->merchant->name}:{$this->merchant->key_name}" ;
         });
+        $grid->statistic_at('日期');
         $grid->count('累计次数');
         $grid->actions(function ($actions) {
             $actions->disableView();
@@ -98,11 +110,10 @@ class MerchantStatisticController extends Controller
                 // Remove the default id filter
                 $filter->disableIdFilter();
                 // 设置datetime类型
-                $filter->between('created_at', '创建时间')->datetime();
-                $filter->equal('channel_id', '渠道')->select('merchants/group');
+                $filter->between('created_at', '日期')->datetime();
             });
             $filter->column(1/2, function ($filter) {
-
+                $filter->equal('merchant_id', '商户')->select('merchants/group');
             });
         
         });
