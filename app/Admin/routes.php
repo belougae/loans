@@ -23,5 +23,6 @@ Route::group([
     $router->resource('merchants', 'MerchantController');
     $router->resource('pictures', 'PictureController');
     $router->resource('statistics', 'MerchantStatisticController');
+    $router->resource('charts', 'ChartjsController');
 
 });

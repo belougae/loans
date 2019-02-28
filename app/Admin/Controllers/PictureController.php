@@ -103,9 +103,6 @@ class PictureController extends Controller
         $grid->thumbnail('图片')->image(config('app.url').'/uploads', 200, 200);
         $grid->name('图片名称')->display(function ($name) {
             return $name;
-        });;
-        $grid->column('status', '图片状态')->display(function ($value) {
-            return grid_type(Picture::$bannerStatusMap[$value], $value);
         });
         $grid->column('type', '图片类型')->display(function ($value) {
             return Picture::$bannerTypeMap[$value];
