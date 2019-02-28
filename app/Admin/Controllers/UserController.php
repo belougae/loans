@@ -81,6 +81,12 @@ class UserController extends Controller
         $grid->id('Id');
         $grid->name('用户姓名');
         $grid->phone('手机号码');
+        $grid->disableCreateButton();
+        $grid->disableExport();
+        $grid->disableRowSelector();
+        $grid->actions(function ($actions) {
+            $actions->disableDelete();
+        });
         // $grid->device_type('设备类型');
         $grid->status('状态');
         $grid->channel_id('渠道');
@@ -113,6 +119,10 @@ class UserController extends Controller
     protected function detail($id)
     {
         $show = new Show(User::findOrFail($id));
+        $show->panel()
+            ->tools(function ($tools) {
+                $tools->disableDelete();
+            });
         $show->name('用户名');
         $show->phone('手机号码');
         $show->created_at('注册时间');
