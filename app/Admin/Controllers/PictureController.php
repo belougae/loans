@@ -76,13 +76,38 @@ class PictureController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Picture);
-
+        $grid->expandFilter();
+        // 查询过滤
+        $grid->filter(function($filter){
+            $filter->disableIdFilter();
+            $filter->column(1/2, function ($filter) {
+                $filter->equal('merchant_id', '商户')->select('merchants/group');
+                $filter->equal('status', '图片状态')->select(Picture::$bannerStatusMap);
+            });
+            $filter->column(1/2, function ($filter) {
+                $filter->equal('type', '图片类型')->select(Picture::$bannerTypeMap);
+            });
+        });
+        $grid->actions(function ($actions) {
+            if($actions->row->status === 1){
+                $actions->append('<a href="'.route('pictures.putaway', ['get' => $actions->row->id]).'"><i class="badge badge-success">去上架</i></a>');
+            }elseif($actions->row->status === 2){
+                $actions->append('<a href="'.route('pictures.soldOut', ['get' => $actions->row->id]).'"><i class="badge badge-warning">去下架</i></a>');
+            }else{
+                $actions->append('<i class="badge badge-secondary">已删除</i>');
+            };
+            
+        
+        });
         $grid->id('Id');
         $grid->thumbnail('图片')->image(config('app.url').'/uploads', 200, 200);
-        $grid->name('图片名称');
-        $grid->url('图片URL');
-        // $grid->type('图片类型');
-        $grid->column('type', ' 图片类型')->display(function ($value) {
+        $grid->name('图片名称')->display(function ($name) {
+            return $name;
+        });;
+        $grid->column('status', '图片状态')->display(function ($value) {
+            return grid_type(Picture::$bannerStatusMap[$value], $value);
+        });
+        $grid->column('type', '图片类型')->display(function ($value) {
             return Picture::$bannerTypeMap[$value];
         });
         $grid->created_at('创建时间');
@@ -91,6 +116,20 @@ class PictureController extends Controller
         return $grid;
     }
 
+    public function putaway(Picture $picture)
+    {
+        $picture->status = 2;
+        $picture->save();
+        return back();
+    }
+   
+    public function soldOut(Picture $picture)
+    {
+        $picture->status = 1;
+        $picture->save();
+        return back();
+    }
+    
     /**
      * Make a show builder.
      *
@@ -107,6 +146,9 @@ class PictureController extends Controller
         $show->url('URL');
         $show->type('类型')->as(function ($value) {
             return Picture::$bannerTypeMap[$value];
+        });
+        $show->status('状态')->as(function ($value) {
+            return Picture::$bannerStatusMap[$value];
         });
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
@@ -126,7 +168,8 @@ class PictureController extends Controller
         $form->image('thumbnail', '图片')->move('/images/banners');
         $form->text('name', '图片名称');
         $form->url('url', '图片URL');
-        $form->select('type', '图片类型')->options([ '其他', '首页顶部', '首页导航栏', '最新下款王']);
+        $form->select('type', '图片类型')->options(Picture::$bannerTypeMap);
+        $form->select('status', '图片状态')->options(Picture::$bannerStatusMap);
         return $form;
     }
 }
