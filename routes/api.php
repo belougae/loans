@@ -32,8 +32,11 @@ $api->version('v1', [
         $api->post('merchants/clicks', 'MerchantController@clicks');
     });
     // 登录
-    $api->post('authorizations', 'AuthorizationsController@store')
-    ->name('api.authorizations.store');
+    $api->post('authorizations', 'AuthorizationsController@store');
+    // 帮助中心
+    $api->get('help_center', 'UserCenterController@helpCenter');
+    // 隐私政策
+    $api->get('privacy_policy', 'UserCenterController@privacyPolicy');
     $api->get('merchants/today_recommend', 'MerchantController@todayRecommend');//
     $api->get('merchants/new_loan_king', 'MerchantController@newLoanKing');//
     $api->get('merchants/new_holes', 'MerchantController@newHoles');
