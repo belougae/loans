@@ -14,8 +14,8 @@ class AddStatisticAtAndHourTable extends Migration
     public function up()
     {
         Schema::table('merchant_statistics', function (Blueprint $table) {
-            $table->dateTime('statistic_at')->after('count');
-            $table->unsignedInteger('hour')->after('statistic_at');
+            $table->dateTime('statistic_at')->after('count')->comment('统计时间');
+            $table->unsignedInteger('hour')->after('statistic_at')->comment('时针');
         });
     }
 
