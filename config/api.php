@@ -215,7 +215,9 @@ return [
 
     'formats' => [
 
-        'json' => Dingo\Api\Http\Response\Format\Json::class,
+        // 'json' => Dingo\Api\Http\Response\Format\Json::class,
+        //重写返回码
+        'json' => App\Http\Controllers\Api\NewJson::class,
 
     ],
 

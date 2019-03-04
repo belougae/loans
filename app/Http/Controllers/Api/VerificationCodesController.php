@@ -27,8 +27,7 @@ class VerificationCodesController extends Controller
         \Cache::put($key, ['phone' => $phone, 'code' => $code], $expiredAt);
         // 清除图片验证码缓存
         return $this->response->array([
-            'key' => $key,
-            'expired_at' => $expiredAt->toDateTimeString(),
+            'key' => $key
         ])->setStatusCode(201);
     }
 
