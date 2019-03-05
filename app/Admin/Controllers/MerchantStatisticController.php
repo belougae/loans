@@ -190,14 +190,13 @@ class MerchantStatisticController extends Controller
         $grid->disableCreateButton();
         $grid->disableExport();
         $grid->disableRowSelector();
-        
         $grid->expandFilter();
         $grid->model()->groupBy('merchant_id')->select([DB::raw("sum(count) as total"),'merchant_id']);
         $grid->merchant_id('商户名')->display(function ($value) {
             return $this->merchant->name ;
         });
         $grid->disableActions();
-        // 不存的字段列
+        // 不存在的字段列
         $grid->column('counts', '合计次数')->display(function () {
             return $this->total;
         });
