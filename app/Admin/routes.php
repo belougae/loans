@@ -15,14 +15,22 @@ Route::group([
     $router->get('pictures/{picture}/putaway', 'PictureController@putaway')->name('pictures.putaway');
     // 图片下架
     $router->get('pictures/{picture}/sold_out', 'PictureController@soldOut')->name('pictures.soldOut');
-    // 商户列表
-    $router->get('merchants/group', 'MerchantController@merchantGroup')->name('merchants.group');
-    // 定时任务：统计 Redis 到 Mysql
-    $router->get('merchants/timing', 'MerchantStatisticController@timing')->name('merchants.timing');
+    
+
+    $router->group(['prefix' => 'statistics'],function ($router)
+    {
+        // 商户列表
+        $router->get('merchants/group', 'MerchantController@merchantGroup')->name('merchants.group');
+        // 定时任务：统计 Redis 到 Mysql
+        $router->get('timing', 'MerchantStatisticController@timing')->name('merchants.timing');
+        $router->get('hours', 'MerchantStatisticController@hours');
+        $router->get('days', 'MerchantStatisticController@days');
+    });
     $router->resource('users', 'UserController');
     $router->resource('merchants', 'MerchantController');
     $router->resource('pictures', 'PictureController');
     $router->resource('statistics', 'MerchantStatisticController');
     $router->resource('charts', 'ChartjsController');
+
 
 });

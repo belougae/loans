@@ -88,7 +88,8 @@ class UserController extends Controller
             $actions->disableDelete();
         });
         // $grid->device_type('设备类型');
-        $grid->status('状态');
+        // $grid->status('状态');
+        
         $grid->channel_id('渠道');
         $grid->created_at('注册时间')->sortable();
         $grid->updated_at('最近活跃时间');

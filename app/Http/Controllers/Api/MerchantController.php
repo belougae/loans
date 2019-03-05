@@ -59,8 +59,8 @@ class MerchantController extends Controller
     // 各渠道点击数（每日每渠道每用户记一次）
     public function clicks(Request $request)
     {
-        // etc: channel_clicks:2019-02-22(日期):1（channel_id）
-        Redis::sadd('channel_clicks'.':'.Carbon::now()->toDateString().':'.$request->channel_id, $this->user()->phone);
+        // etc: channel_clicks:2019-02-22-00(日期):1（channel_id）
+        Redis::sadd('channel_clicks'.':'.Carbon::now()->toDateString().'-'.date ( "H").':'.$request->channel_id, $this->user()->phone);
         return $this->response->noContent();
     }
 }

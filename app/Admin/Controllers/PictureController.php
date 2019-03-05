@@ -81,7 +81,7 @@ class PictureController extends Controller
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->column(1/2, function ($filter) {
-                $filter->equal('merchant_id', '商户')->select('merchants/group');
+                $filter->equal('merchant_id', '商户')->select('statistics/merchants/group');
                 $filter->equal('status', '图片状态')->select(Picture::$bannerStatusMap);
             });
             $filter->column(1/2, function ($filter) {
