@@ -15,6 +15,7 @@ class UserCenterController extends Controller
     // 隐私条款
     public function privacyPolicy()
     {
-        return $this->response->array(config('usercenter.privacy_policy'));
+        $meta['first'] = config('usercenter.privacy_policy_top');
+        return $this->response->array([config('usercenter.privacy_policy')]);
     }
 }
