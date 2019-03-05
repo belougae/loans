@@ -20,13 +20,17 @@ Route::group([
     $router->group(['prefix' => 'statistics'],function ($router)
     {
         // 商户列表
-        $router->get('merchants/group', 'MerchantController@merchantGroup')->name('merchants.group');
+        $router->get('merchants/group', 'MerchantController@merchantGroup');
         // 定时任务：统计 Redis 到 Mysql
         $router->get('timing', 'MerchantStatisticController@timing')->name('merchants.timing');
         $router->get('hours', 'MerchantStatisticController@hours');
         $router->get('days', 'MerchantStatisticController@days');
     });
+    // 渠道列表
+    $router->get('constants/group', 'ConstantController@constantGroup');
     $router->resource('users', 'UserController');
+    $router->resource('constants', 'ConstantController');
+    $router->resource('channel_statistics', 'ChannelStatisticController');
     $router->resource('merchants', 'MerchantController');
     $router->resource('pictures', 'PictureController');
     $router->resource('statistics', 'MerchantStatisticController');

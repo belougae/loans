@@ -41,11 +41,11 @@ class MerchantController extends Controller
         return $this->response->collection(Merchant::get(), new MerchantTransformer()); 
     }
 
-    // 各渠道点击数（每日每渠道每用户记一次）
+    // 各商户点击数（每日每商户每用户记一次）
     public function clicks(Request $request)
     {
         // etc: channel_clicks:2019-02-22-00(日期):1（channel_id）
-        Redis::sadd('channel_clicks'.':'.Carbon::now()->toDateString().'-'.date ( "H").':'.$request->channel_id, $this->user()->phone);
+        Redis::sadd('merchant_clicks'.':'.Carbon::now()->toDateString().'-'.date ( "H").':'.$request->channel_id, $this->user()->phone);
         return $this->response->noContent();
     }
 }

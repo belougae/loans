@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\Api\UserRequest;
+use Illuminate\Support\Facades\Redis;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -24,6 +26,9 @@ class UserController extends Controller
             $user = User::create([
                         'phone' => $verifyData['phone'],
                     ]);
+        }
+        if($request->channel_id){
+            Redis::sadd('channel_register'.':'.Carbon::now()->toDateString().':'.$request->channel_id, $verifyData['phone']);
         }
 
         $token = \Auth::guard('api')->fromUser($user);

@@ -28,6 +28,9 @@ $api->version('v1', [
         $api->post('verificationCodes', 'VerificationCodesController@store')->name('api.verificationCodes.store');
         $api->post('merchants/clicks', 'MerchantController@clicks');
         $api->get('users/logout', 'UserController@logout');
+        // 渠道访问统计
+        $api->get('channels/visit', 'ChannelController@visit');
+        $api->get('channels/register', 'ChannelController@register');
     });
 
     // 用户登录

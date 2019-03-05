@@ -166,9 +166,9 @@ class MerchantStatisticController extends Controller
         });
         $grid->disableActions();
         // $grid->count('合计次数');
-        $grid->statistic_at('统计时间')->display(function($value) {
-            return $this->statistic_at.'( 00 : 00 : 00  至  00 : 00 : 00 )';
-        });
+        // $grid->statistic_at('统计时间')->display(function($value) {
+        //     return $this->statistic_at.'( 00 : 00 : 00  至  00 : 00 : 00 )';
+        // });
 
         return $grid;
     }
@@ -257,7 +257,7 @@ class MerchantStatisticController extends Controller
         $now = Carbon::now()->toDateString();
         // dd(Redis::keys('channel_clicks:'.$now.'*'));
         // 当天存在数据的商户的 key
-        foreach (Redis::keys('channel_clicks:'.$now.'*') as $merchantKey) {
+        foreach (Redis::keys('merchant_clicks:'.$now.'*') as $merchantKey) {
             $merchantexplod = explode(':', $merchantKey); 
             $clock = explode('-', $merchantexplod[1])[3];
             $merchantCount = Redis::scard($merchantKey);
