@@ -41,9 +41,10 @@ class UserController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+    
     public function logout()
     {
         Auth::guard('api')->logout();
-        return $this->response->noContent();
+        return $this->response->array([]);
     }
 }
