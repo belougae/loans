@@ -46,6 +46,6 @@ class MerchantController extends Controller
     {
         // etc: channel_clicks:2019-02-22-00(日期):1（channel_id）
         Redis::sadd('merchant_clicks'.':'.Carbon::now()->toDateString().'-'.date ( "H").':'.$request->channel_id, $this->user()->phone);
-        return $this->response->noContent();
+        return $this->response->array([]);
     }
 }
