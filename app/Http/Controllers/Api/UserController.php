@@ -18,17 +18,18 @@ class UserController extends Controller
         }
 
         if (!hash_equals($verifyData['code'], $request->verification_code)) {
-            // 返回401
-            // return $this->response->errorUnauthorized('验证码错误');
             return $this->response->error('验证码错误', 422);
         }
-        if(!$user = User::where('phone', $verifyData['phone'])->first()){
-            $user = User::create([
-                        'phone' => $verifyData['phone'],
-                    ]);
+        
+        $createArr = [];
+        if($channel_id = $request->channel_id){
+            Redis::sadd('channel_register'.':'.Carbon::now()->toDateString().':'.$channel_id, $verifyData['phone']);
+            $createArr['channel_id'] = $channel_id;
         }
-        if($request->channel_id){
-            Redis::sadd('channel_register'.':'.Carbon::now()->toDateString().':'.$request->channel_id, $verifyData['phone']);
+
+        if(!$user = User::where('phone', $verifyData['phone'])->first()){
+            $createArr['phone'] = $verifyData['phone'];
+            $user = User::create($createArr);
         }
 
         $token = \Auth::guard('api')->fromUser($user);
