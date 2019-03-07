@@ -22,7 +22,9 @@ Route::group([
         // 商户列表
         $router->get('merchants/group', 'MerchantController@merchantGroup');
         // 定时任务：统计 Redis 到 Mysql
-        $router->get('timing', 'MerchantStatisticController@timing')->name('merchants.timing');
+        $router->get('merchants/timing', 'MerchantStatisticController@timing')->name('merchants.timing');
+        // 定时任务：渠道统计
+        $router->get('channels/timing', 'ChannelStatisticController@timing')->name('channels.timing');
         $router->get('hours', 'MerchantStatisticController@hours');
         $router->get('days', 'MerchantStatisticController@days');
     });

@@ -10,6 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redis;
 
 class ChannelStatisticController extends Controller
 {
@@ -118,22 +119,42 @@ class ChannelStatisticController extends Controller
         $at = Carbon::now()->toDateTimeString();
         $now = Carbon::now()->toDateString();
         // 当天存在数据的商户的 key
-        foreach (Redis::keys('channel_register:'.$now.'*') as $channelKey) {
+        foreach (Redis::keys('channel_visit:'.$now.'*') as $channelKey) {
             $channelExplod = explode(':', $channelKey); 
-            $clock = explode('-', $channelExplod[1])[3];
-            $channelCount = Redis::scard($channelKey);
-            $result = ChannelStatistic::where('statistic_at', $now)->where('hour', $clock)->where('merchant_id', $channelExplod[2])->get();
+            $channelVisitCount = Redis::scard($channelKey);
+            $result = ChannelStatistic::where('statistic_at', $now)->where('channel_id', $channelExplod[2])->get();
+
             if(!count($result)){
                 ChannelStatistic::insert([
-                'count' => $channelCount,
-                'merchant_id' => $channelExplod[2],
+                'count_visit' => $channelVisitCount,
+                'channel_id' => $channelExplod[2],
                 'created_at' => $at,
-                'statistic_at' => $now,
-                'count_register' => $clock
+                'statistic_at' => $now
                 ]);
             }else{
-                ChannelStatistic::where('statistic_at', $now)->where('merchant_id', $channelExplod[2])->update([
-                    'count_register' => $channelCount,
+                ChannelStatistic::where('statistic_at', $now)->where('channel_id', $channelExplod[2])->update([
+                    'count_visit' => $channelVisitCount,
+                    'updated_at' => $at
+                    ]);
+            }
+        }
+
+        // 当天存在数据的商户的 key
+        foreach (Redis::keys('channel_register:'.$now.'*') as $channelKey) {
+            $channelExplod = explode(':', $channelKey); 
+            $channelRegisterCount = Redis::scard($channelKey);
+            $result = ChannelStatistic::where('statistic_at', $now)->where('channel_id', $channelExplod[2])->get();
+
+            if(!count($result)){
+                ChannelStatistic::insert([
+                'count_register' => $channelRegisterCount,
+                'channel_id' => $channelExplod[2],
+                'created_at' => $at,
+                'statistic_at' => $now
+                ]);
+            }else{
+                ChannelStatistic::where('statistic_at', $now)->where('channel_id', $channelExplod[2])->update([
+                    'count_register' => $channelRegisterCount,
                     'updated_at' => $at
                     ]);
             }
