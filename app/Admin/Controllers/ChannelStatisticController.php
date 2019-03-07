@@ -78,7 +78,7 @@ class ChannelStatisticController extends Controller
                 $filter->between('created_at', '日期')->date();
             });
             $filter->column(1/2, function ($filter) {
-                $filter->equal('id', '商户')->select('constants/group');
+                $filter->equal('id', '渠道')->select('constants/group');
             });
         
         });

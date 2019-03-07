@@ -20,14 +20,14 @@ class UserController extends Controller
         if (!hash_equals($verifyData['code'], $request->verification_code)) {
             return $this->response->error('验证码错误', 422);
         }
-        
+        $user = User::where('phone', $verifyData['phone'])->first();
         $createArr = [];
-        if($channel_id = $request->channel_id){
+        if($channel_id = $request->channel_id && !$user){
             Redis::sadd('channel_register'.':'.Carbon::now()->toDateString().':'.$channel_id, $verifyData['phone']);
             $createArr['channel_id'] = $channel_id;
         }
 
-        if(!$user = User::where('phone', $verifyData['phone'])->first()){
+        if(!$user){
             $createArr['phone'] = $verifyData['phone'];
             $user = User::create($createArr);
         }
