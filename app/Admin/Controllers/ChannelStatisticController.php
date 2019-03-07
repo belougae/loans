@@ -118,7 +118,8 @@ class ChannelStatisticController extends Controller
     {
         $at = Carbon::now()->toDateTimeString();
         $now = Carbon::now()->toDateString();
-        // 当天存在数据的商户的 key
+        
+        // 访问统计
         foreach (Redis::keys('channel_visit:'.$now.'*') as $channelKey) {
             $channelExplod = explode(':', $channelKey); 
             $channelVisitCount = Redis::scard($channelKey);
@@ -139,7 +140,7 @@ class ChannelStatisticController extends Controller
             }
         }
 
-        // 当天存在数据的商户的 key
+        // 注册统计
         foreach (Redis::keys('channel_register:'.$now.'*') as $channelKey) {
             $channelExplod = explode(':', $channelKey); 
             $channelRegisterCount = Redis::scard($channelKey);
