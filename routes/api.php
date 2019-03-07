@@ -29,8 +29,7 @@ $api->version('v1', [
         $api->post('merchants/clicks', 'MerchantController@clicks');
         $api->get('users/logout', 'UserController@logout');
         // 渠道访问统计
-        $api->get('channels/visit', 'ChannelController@visit');
-        $api->get('channels/register', 'ChannelController@register');
+        $api->post('channels/visit', 'ChannelController@visit');
     });
 
     // 用户登录
