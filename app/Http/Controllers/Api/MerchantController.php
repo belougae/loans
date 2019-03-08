@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Redis;
 
 class MerchantController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+
+        $ua = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+        // Redis::sadd('channel_visit'.':'.Carbon::now()->toDateString().'-'.date ( "H").':'.$request->channel_id, $ua);
+        Redis::sadd('channel_visit'.':'.Carbon::now()->toDateString().':'.$request->channel_id, $ua);
         \Cache::increment('count:count_visit', 1);
         $meta['hot_ad'] = '建议申请3家以上，100% 一小时内到帐';
         // $meta['count_visit'] = \Cache::get('count:count_visit');

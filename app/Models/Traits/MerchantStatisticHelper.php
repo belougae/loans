@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redis;
 trait MerchantStatisticHelper
 {
     // 商户统计定时
-    public function timing1()
+    public function timing()
     {
         $at = Carbon::now()->toDateTimeString();
         $now = Carbon::now()->toDateString();
