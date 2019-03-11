@@ -77,9 +77,7 @@ class UserController extends Controller
     protected function grid()
     {
         $grid = new Grid(new User);
-
-        $grid->id('Id');
-        $grid->name('用户姓名');
+        $grid->name('姓名');
         $grid->phone('手机号码');
         $grid->disableCreateButton();
         $grid->disableExport();

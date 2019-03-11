@@ -23,7 +23,7 @@ class ConstantController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('渠道信息管理')
+            ->header('渠道列表')
             ->body($this->grid());
     }
 
@@ -37,8 +37,7 @@ class ConstantController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('渠道详情')
             ->body($this->detail($id));
     }
 
@@ -52,8 +51,7 @@ class ConstantController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('渠道修改')
             ->body($this->form()->edit($id));
     }
 
@@ -122,13 +120,11 @@ class ConstantController extends Controller
     {
         $show = new Show(Constant::findOrFail($id));
 
-        $show->id('Id');
-        $show->parent_id('Parent id');
-        $show->cons_key('Cons key');
-        $show->cons_desc('Cons desc');
-        $show->name('Name');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->cons_key('渠道标识');
+        $show->cons_desc('渠道描述')->limit(20);
+        $show->name('渠道名称');
+        $show->created_at('创建时间');
+        $show->updated_at('修改时间');
 
         return $show;
     }
