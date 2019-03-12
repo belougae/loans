@@ -52,4 +52,12 @@ class MerchantController extends Controller
         Redis::sadd('merchant_clicks'.':'.Carbon::now()->toDateString().'-'.date ( "H").':'.$request->merchant_id, $this->user()->phone);
         return $this->response->array([]);
     }
+
+    // 指定平台（桔子贷）商户列表接口
+    public function platform(Request $request)
+    {
+        $platformName = $request->platform_name;
+        $merchants = Merchant::where('putaway', 1)->where('type', $platformName)->get();
+        return $this->response->collection($merchants, new MerchantTransformer()); 
+    }
 }

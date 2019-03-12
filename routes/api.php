@@ -40,6 +40,8 @@ $api->version('v1', [
     $api->get('help_center', 'UserCenterController@helpCenter');
     // 隐私政策
     $api->get('privacy_policy', 'UserCenterController@privacyPolicy');
+    // 指定平台（桔子贷）商户列表接口
+    $api->get('merchants/platform', 'MerchantController@platform');
     $api->get('merchants/today_recommend', 'MerchantController@todayRecommend');//
     $api->get('merchants/new_loan_king', 'MerchantController@newLoanKing');//
     $api->get('merchants/new_holes', 'MerchantController@newHoles');
