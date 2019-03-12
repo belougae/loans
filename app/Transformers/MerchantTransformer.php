@@ -17,6 +17,7 @@ class MerchantTransformer extends TransformerAbstract
             'type' => $merchant->type,
             'thumbnail' => $merchant->thumbnail,
             'name' => $merchant->name,
+            'min_limit' => $merchant->min_limit,
             'max_limit' => $merchant->max_limit,
             'description' => $merchant->description,
             'rate' => $merchant->rate,

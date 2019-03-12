@@ -18,7 +18,7 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
 ], function($api) {
-    
+
     $api->group([
         'middleware' => 'api.throttle',
         'limit' => config('api.rate_limits.sign.limit'),
@@ -32,7 +32,7 @@ $api->version('v1', [
         $api->post('channels/visit', 'ChannelController@visit');
     });
     $api->group([
-        'middleware' => 'cors',
+        'middleware' => 'cors',// 跨域
     ], function($api) {
         // 指定平台（桔子贷）商户列表接口
         $api->get('merchants/platform', 'MerchantController@platform');

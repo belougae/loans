@@ -101,9 +101,9 @@ class ConstantController extends Controller
         });
 
         $grid->id('ID');
-        $grid->cons_key('渠道标识');
-        $grid->cons_desc('渠道描述');
-        $grid->name('渠道名称');
+        $grid->cons_key('标识');
+        $grid->cons_desc('链接');
+        $grid->name('名称');
         $grid->created_at('创建时间');
         $grid->updated_at('修改时间');
 
@@ -120,9 +120,9 @@ class ConstantController extends Controller
     {
         $show = new Show(Constant::findOrFail($id));
 
-        $show->cons_key('渠道标识');
-        $show->cons_desc('渠道描述')->limit(20);
-        $show->name('渠道名称');
+        $show->cons_key('标识');
+        $show->cons_desc('链接')->limit(20);
+        $show->name('名称');
         $show->created_at('创建时间');
         $show->updated_at('修改时间');
 
@@ -139,7 +139,7 @@ class ConstantController extends Controller
         $form = new Form(new Constant);
 
         $form->text('cons_key', '渠道标识');
-        $form->text('cons_desc', '渠道描述');
+        $form->url('cons_desc', '链接');
         $form->text('name', '渠道名称');
 
         return $form;

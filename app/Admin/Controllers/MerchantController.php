@@ -133,9 +133,10 @@ class MerchantController extends Controller
         $show->thumbnail('图标')->image(config('app.url').'/uploads/', 50, 50);
         $show->key_name('商户标识');
         $show->name('商户名称');
-        $show->max_limit('限额');
+        $show->min_limit('最小限额');
+        $show->max_limit('最大限额');
         $show->description('广告语');
-        $show->rate('利息低至');
+        $show->rate('利率');
         $show->url('推广URL');
         $show->label_first('标签1');
         $show->label_second('标签2');
@@ -163,9 +164,10 @@ class MerchantController extends Controller
         $form->image('thumbnail', '图标')->move('/images/merchants');
         $form->text('key_name', '商户标识');
         $form->text('name', '名称');
-        $form->number('max_limit', '限额');
+        $form->number('min_limit', '最小限额');
+        $form->number('max_limit', '最大限额');
         $form->text('description', '广告语');
-        $form->decimal('rate', '利息低至');
+        $form->decimal('rate', '利率');
         $form->url('url', '推广URL');
         $form->text('label_first', '标签1');
         $form->text('label_second', '标签2');
