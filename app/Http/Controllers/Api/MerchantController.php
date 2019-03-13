@@ -23,7 +23,10 @@ class MerchantController extends Controller
         $meta['hot_ad'] = '建议申请3家以上，100% 一小时内到帐';
         // $meta['count_visit'] = \Cache::get('count:count_visit');
         // 首页轮播图
-        $meta['index_top_banner'] = Picture::where('type', 1)->get()->pluck('thumbnail');
+        $banners = Picture::where('type', 1)->get()->pluck('thumbnail');
+        $meta['index_top_banner'] = $banners->map(function ($banner, $key) {
+            return env('APP_URL').'/uploads/'.$banner;
+        });
 
         return $this->response->collection($this->merchantList('index'), new MerchantTransformer())->setMeta($meta);
     }
