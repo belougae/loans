@@ -14,7 +14,6 @@ class MerchantTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$merchant->id,
-            'type' => $merchant->type,
             'thumbnail' => $merchant->thumbnail,
             'name' => $merchant->name,
             'min_limit' => $merchant->min_limit,

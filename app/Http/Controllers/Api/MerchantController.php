@@ -65,7 +65,7 @@ class MerchantController extends Controller
     */
     public function platform(Request $request)
     {
-        $merchantIds = MerchantStatuses::where('type', collect($merchants))
+        $merchantIds = MerchantStatuses::where('type', $request->platform_name)
                                         ->where('putaway', '1')
                                         ->orderBy('top', 'DESC')
                                         ->orderBy('sort', 'DESC')
