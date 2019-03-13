@@ -99,22 +99,21 @@ class MerchantController extends Controller
         $grid->name('名称');
         $grid->thumbnail('LOGO')->image(config('app.url').'/uploads', 50, 50);
         $grid->url('链接')->limit(20);
-        $grid->key_name('唯一标识');
         $grid->description('广告语')->limit(10);
         $grid->count_click('点击数');
         $grid->count_week('本周下款');
         $grid->created_at('创建时间');
-        $grid->sort('排序')->sortable();
-        $top = [
-            'on'  => ['value' => 0, 'text' => '关闭', 'color' => 'default'],
-            'off' => ['value' => 1, 'text' => '置顶', 'color' => 'primary'],
-        ];
-        $grid->top('置顶')->switch($top)->sortable();
-        $putaway = [
-            'on'  => ['value' => 0, 'text' => '关闭', 'color' => 'default'],
-            'off' => ['value' => 1, 'text' => '上架', 'color' => 'primary'],
-        ];
-        $grid->putaway('上架')->switch($putaway)->sortable();
+        // $grid->sort('排序')->sortable();
+        // $top = [
+        //     'on'  => ['value' => 0, 'text' => '关闭', 'color' => 'default'],
+        //     'off' => ['value' => 1, 'text' => '置顶', 'color' => 'primary'],
+        // ];
+        // $grid->top('置顶')->switch($top)->sortable();
+        // $putaway = [
+        //     'on'  => ['value' => 0, 'text' => '关闭', 'color' => 'default'],
+        //     'off' => ['value' => 1, 'text' => '上架', 'color' => 'primary'],
+        // ];
+        // $grid->putaway('上架')->switch($putaway)->sortable();
 
         return $grid;
     }
@@ -193,8 +192,16 @@ class MerchantController extends Controller
         $form->text('label_third', '标签3');
         $form->hasMany('statuses', '状态', function(Form\NestedForm $form) {
             $form->number('sort', '排序');
-            $form->switch('top', '置顶')->states([0 => '不置顶', 1 => '置顶']);
-            $form->switch('putaway', '上线')->states([0 => '下线', 1 => '上线']);         
+            $top = [
+                'on'  => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+                'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+            ];
+            $form->switch('top', '置顶')->states($top);
+            $putaway = [
+                'on'  => ['value' => 'on', 'text' => '打开', 'color' => 'success'],
+                'off' => ['value' => 'off', 'text' => '关闭', 'color' => 'danger'],
+            ];
+            $form->switch('putaway', '上线')->states($putaway);         
             $form->select('type', '图片类型')->options(MerchantStatuses::$typeMap);
         });
         return $form;
