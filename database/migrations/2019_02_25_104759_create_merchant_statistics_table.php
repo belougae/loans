@@ -18,6 +18,8 @@ class CreateMerchantStatisticsTable extends Migration
             $table->unsignedInteger('merchant_id')->comment('商户id');
             $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade');
             $table->unsignedInteger('count')->default(0)->comment('累计次数');
+            $table->dateTime('statistic_at')->comment('统计时间');
+            $table->unsignedInteger('hour')->comment('时针');
             $table->timestamps();
         });
         \DB::statement("ALTER TABLE `merchant_statistics` comment '商户统计信息表'");

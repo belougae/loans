@@ -18,10 +18,11 @@ class CreateMerchantsTable extends Migration
             $table->string('thumbnail')->nullable()->comment('商户图标');
             $table->string('key_name')->unique()->comment('商户标识');
             $table->string('name')->comment('商户名称');
+            $table->unsignedInteger('min_limit')->comment('最小额度');
             $table->unsignedInteger('max_limit')->comment('最高额度');
             $table->string('description')->nullable()->comment('商户描述');
-            $table->float('rate')->nullable()->comment('利息低至');
-            $table->string('url')->nullable()->comment('推广URL');
+            $table->float('rate')->nullable()->comment('利率');
+            $table->string('url')->nullable()->comment('链接');
             $table->string('label_first')->nullable()->comment('标签1');
             $table->string('label_second')->nullable()->comment('标签2');
             $table->string('label_third')->nullable()->comment('标签3');

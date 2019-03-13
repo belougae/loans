@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\MerchantStatuses;
 use App\Models\Merchant;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -37,8 +38,7 @@ class MerchantController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('商户详情')
             ->body($this->detail($id));
     }
 
@@ -137,15 +137,33 @@ class MerchantController extends Controller
         $show->max_limit('最大限额');
         $show->description('广告语');
         $show->rate('利率');
-        $show->url('推广URL');
+        $show->url('链接');
         $show->label_first('标签1');
         $show->label_second('标签2');
         $show->label_third('标签3');
         $show->count_click('点击数');
         $show->count_week('本周下款');
-        $show->sort('排序');
-        $show->top('置顶');
-        $show->putaway('上线');
+        $show->statuses('状态', function ($statuses) {
+            // 多选列
+            $statuses->disableRowSelector();
+            $statuses->expandFilter();
+            $statuses->disableCreateButton();
+            $statuses->disableFilter();
+            $statuses->disablePagination();
+            $statuses->disableExport();
+            $statuses->disableActions();
+            $statuses->type('类型')->display(function ($value) {
+                return MerchantStatuses::$typeMap[$value];
+            });
+            $statuses->top('置顶')->display(function ($value) {
+                return $value ? '置顶' : '未置顶';
+            });
+            $statuses->putaway('上架')->display(function ($value) {
+                return $value ? '上架' : '未上架';
+            });
+            $statuses->sort();
+            $statuses->created_at();
+        });
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
 
@@ -159,6 +177,7 @@ class MerchantController extends Controller
      */
     protected function form()
     {
+        
         $form = new Form(new Merchant);
 
         $form->image('thumbnail', '图标')->move('/images/merchants');
@@ -168,13 +187,16 @@ class MerchantController extends Controller
         $form->number('max_limit', '最大限额');
         $form->text('description', '广告语');
         $form->decimal('rate', '利率');
-        $form->url('url', '推广URL');
+        $form->url('url', '链接');
         $form->text('label_first', '标签1');
         $form->text('label_second', '标签2');
         $form->text('label_third', '标签3');
-        $form->number('sort', '排序');
-        $form->switch('top', '置顶')->states([0 => '不置顶', 1 => '置顶']);
-        $form->switch('putaway', '上线')->states([0 => '下线', 1 => '上线']);
+        $form->hasMany('statuses', '状态', function(Form\NestedForm $form) {
+            $form->number('sort', '排序');
+            $form->switch('top', '置顶')->states([0 => '不置顶', 1 => '置顶']);
+            $form->switch('putaway', '上线')->states([0 => '下线', 1 => '上线']);         
+            $form->select('type', '图片类型')->options(MerchantStatuses::$typeMap);
+        });
         return $form;
     }
 

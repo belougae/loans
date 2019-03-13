@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MerchantStatistic extends Model
 {
+    
     use MerchantStatisticHelper;
     protected $guarded = [];
     

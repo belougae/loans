@@ -47,7 +47,7 @@ $api->version('v1', [
     // 隐私政策
     $api->get('privacy_policy', 'UserCenterController@privacyPolicy');
     $api->get('merchants/today_recommend', 'MerchantController@todayRecommend');//
-    $api->get('merchants/new_loan_king', 'MerchantController@newLoanKing');//
+    $api->get('merchants/new_loan_king', 'MerchantController@newLoanKing');//最新下款王
     $api->get('merchants/new_holes', 'MerchantController@newHoles');
     $api->resource('merchants', 'MerchantController');
 });

@@ -10,6 +10,7 @@ use App\Transformers\MerchantTransformer;
 use Illuminate\Http\Request;
 use App\Models\Merchant;
 use Illuminate\Support\Facades\Redis;
+use App\Models\MerchantStatuses;
 
 class MerchantController extends Controller
 {
@@ -27,14 +28,18 @@ class MerchantController extends Controller
         return $this->response->collection(Merchant::get(), new MerchantTransformer())->setMeta($meta);
     }
 
-    // 最新下款王
+    /**
+     * 最新下款王
+     * */ 
     public function newLoanKing()
     {
         $meta['page'] = 'new_loan_king';
         return $this->response->collection(Merchant::get(), new MerchantTransformer());
     }
 
-    // 新口子
+    /**
+     * 新口子 
+    */
     public function newHoles()
     {
         return $this->response->collection(Merchant::where('type')->get(), new MerchantTransformer()); 
@@ -45,7 +50,9 @@ class MerchantController extends Controller
         return $this->response->collection(Merchant::get(), new MerchantTransformer()); 
     }
 
-    // 各商户点击数（每日每商户每用户记一次）
+    /**
+     * 各商户点击数（每日每商户每用户记一次）
+    */
     public function clicks(Request $request)
     {
         // etc: channel_clicks:2019-02-22-00(日期):merchant_id
@@ -53,11 +60,20 @@ class MerchantController extends Controller
         return $this->response->array([]);
     }
 
-    // 指定平台（桔子贷）商户列表接口
+    /**
+     * 指定平台（桔子贷）商户列表接口
+    */
     public function platform(Request $request)
     {
-        $platformName = $request->platform_name;
-        $merchants = Merchant::where('putaway', 1)->where('type', $platformName)->get();
-        return $this->response->collection($merchants, new MerchantTransformer()); 
+        $merchantIds = MerchantStatuses::where('type', collect($merchants))
+                                        ->where('putaway', '1')
+                                        ->orderBy('top', 'DESC')
+                                        ->orderBy('sort', 'DESC')
+                                        ->pluck('id');
+        // 循环是为了保证排序
+        foreach($merchantIds as $id){
+            $merchants[] = Merchant::find($id);
+        }
+        return $this->response->collection(collect($merchants), new MerchantTransformer()); 
     }
 }

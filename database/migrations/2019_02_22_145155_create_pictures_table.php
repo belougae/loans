@@ -19,6 +19,7 @@ class CreatePicturesTable extends Migration
             $table->string('name')->nullable()->comment('图片名称');
             $table->string('url')->nullable()->comment('URL');
             $table->tinyInteger('type')->nullable()->comment('设备类型 0:其他 1:首页导航栏 2:最新下款王 3:首页顶部');
+            $table->tinyInteger('status')->default(1)->comment('用户状态 0：删除 1：未上架 2：上架');
             $table->timestamps();
         });
         \DB::statement("ALTER TABLE `pictures` comment '商户信息登记表'");
