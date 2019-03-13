@@ -155,13 +155,17 @@ class MerchantController extends Controller
                 return MerchantStatuses::$typeMap[$value];
             });
             $statuses->top('置顶')->display(function ($value) {
-                return $value ? '置顶' : '未置顶';
+                return $value ? "<span class='label label-success'>已置顶</span>" : '未置顶';
+                
             });
             $statuses->putaway('上架')->display(function ($value) {
-                return $value ? '上架' : '未上架';
+                if($value === 'on'){
+                    return "<span class='label label-success'>已上架</span>";
+                }
+                return '未上架';
             });
-            $statuses->sort();
-            $statuses->created_at();
+            $statuses->sort('排序');
+            $statuses->created_at('创建时间');
         });
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
@@ -201,7 +205,7 @@ class MerchantController extends Controller
                 'on'  => ['value' => 'on', 'text' => '打开', 'color' => 'success'],
                 'off' => ['value' => 'off', 'text' => '关闭', 'color' => 'danger'],
             ];
-            $form->switch('putaway', '上线')->states($putaway);         
+            $form->switch('putaway', '上架')->states($putaway);         
             $form->select('type', '图片类型')->options(MerchantStatuses::$typeMap);
         });
         return $form;
