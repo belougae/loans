@@ -31,23 +31,23 @@ class MerchantController extends Controller
     /**
      * 最新下款王
      * */ 
-    public function newLoanKing()
-    {
-        return $this->response->collection(Merchant::get(), new MerchantTransformer());
-    }
+    // public function newLoanKing()
+    // {
+    //     return $this->response->collection(Merchant::get(), new MerchantTransformer());
+    // }
 
     /**
      * 新口子 
     */
-    public function newHoles()
-    {
-        return $this->response->collection(Merchant::where('type')->get(), new MerchantTransformer()); 
-    }
+    // public function newHoles()
+    // {
+    //     return $this->response->collection(Merchant::where('type')->get(), new MerchantTransformer()); 
+    // }
 
-    public function todayRecommend()
-    {
-        return $this->response->collection(Merchant::get(), new MerchantTransformer()); 
-    }
+    // public function todayRecommend()
+    // {
+    //     return $this->response->collection(Merchant::get(), new MerchantTransformer()); 
+    // }
 
     /**
      * 各商户点击数（每日每商户每用户记一次）
@@ -65,11 +65,12 @@ class MerchantController extends Controller
     public function platform(Request $request)
     {
         $merchantIds = MerchantStatuses::where('type', $request->platform_name)
-                                        ->where('putaway', 1)
-                                        ->orderBy('top', 'DESC')
-                                        ->orderBy('sort', 'DESC')
-                                        ->pluck('id');
+        ->where('putaway', "on")
+        ->orderBy('top', 'DESC')
+        ->orderBy('sort', 'DESC')
+        ->pluck('merchant_id');
         // 循环是为了保证排序
+        $merchants = [];
         foreach($merchantIds as $id){
             $merchants[] = Merchant::find($id);
         }
