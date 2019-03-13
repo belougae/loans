@@ -33,7 +33,6 @@ class MerchantController extends Controller
      * */ 
     public function newLoanKing()
     {
-        $meta['page'] = 'new_loan_king';
         return $this->response->collection(Merchant::get(), new MerchantTransformer());
     }
 
@@ -71,6 +70,7 @@ class MerchantController extends Controller
                                         ->orderBy('sort', 'DESC')
                                         ->pluck('id');
         // 循环是为了保证排序
+        $merchants = [];
         foreach($merchantIds as $id){
             $merchants[] = Merchant::find($id);
         }
