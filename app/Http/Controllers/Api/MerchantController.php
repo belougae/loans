@@ -65,12 +65,12 @@ class MerchantController extends Controller
     public function platform(Request $request)
     {
         $merchantIds = MerchantStatuses::where('type', $request->platform_name)
-                                        ->where('putaway', '1')
+                                        ->where('putaway', 1)
                                         ->orderBy('top', 'DESC')
                                         ->orderBy('sort', 'DESC')
                                         ->pluck('id');
+                                        return $merchantIds;
         // 循环是为了保证排序
-        $merchants = [];
         foreach($merchantIds as $id){
             $merchants[] = Merchant::find($id);
         }
