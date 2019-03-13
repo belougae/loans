@@ -16,7 +16,6 @@ class MerchantController extends Controller
 {
     public function index(Request $request)
     {
-
         $ua = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
         // Redis::sadd('channel_visit'.':'.Carbon::now()->toDateString().'-'.date ( "H").':'.$request->channel_id, $ua);
         Redis::sadd('channel_visit'.':'.Carbon::now()->toDateString().':'.$request->channel_id, $ua);
@@ -25,29 +24,9 @@ class MerchantController extends Controller
         // $meta['count_visit'] = \Cache::get('count:count_visit');
         // 首页轮播图
         $meta['index_top_banner'] = Picture::where('type', 1)->get()->pluck('thumbnail');
-        return $this->response->collection(Merchant::get(), new MerchantTransformer())->setMeta($meta);
+
+        return $this->response->collection($this->merchantList('index'), new MerchantTransformer())->setMeta($meta);
     }
-
-    /**
-     * 最新下款王
-     * */ 
-    // public function newLoanKing()
-    // {
-    //     return $this->response->collection(Merchant::get(), new MerchantTransformer());
-    // }
-
-    /**
-     * 新口子 
-    */
-    // public function newHoles()
-    // {
-    //     return $this->response->collection(Merchant::where('type')->get(), new MerchantTransformer()); 
-    // }
-
-    // public function todayRecommend()
-    // {
-    //     return $this->response->collection(Merchant::get(), new MerchantTransformer()); 
-    // }
 
     /**
      * 各商户点击数（每日每商户每用户记一次）
@@ -64,7 +43,12 @@ class MerchantController extends Controller
     */
     public function platform(Request $request)
     {
-        $merchantIds = MerchantStatuses::where('type', $request->platform_name)
+        return $this->response->collection($this->merchantList($request->platform_name), new MerchantTransformer()); 
+    }
+
+    public function merchantList($type)
+    {
+        $merchantIds = MerchantStatuses::where('type', $type)
         ->where('putaway', "on")
         ->orderBy('top', 'DESC')
         ->orderBy('sort', 'DESC')
@@ -74,6 +58,6 @@ class MerchantController extends Controller
         foreach($merchantIds as $id){
             $merchants[] = Merchant::find($id);
         }
-        return $this->response->collection(collect($merchants), new MerchantTransformer()); 
+        return collect($merchants);
     }
 }
