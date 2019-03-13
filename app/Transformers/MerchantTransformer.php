@@ -14,7 +14,7 @@ class MerchantTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$merchant->id,
-            'thumbnail' => $merchant->thumbnail,
+            'thumbnail' => env('APP_URL').'/uploads/'.$merchant->thumbnail,
             'name' => $merchant->name,
             'min_limit' => $merchant->min_limit,
             'max_limit' => $merchant->max_limit,
