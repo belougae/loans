@@ -69,7 +69,6 @@ class MerchantController extends Controller
                                         ->orderBy('top', 'DESC')
                                         ->orderBy('sort', 'DESC')
                                         ->pluck('id');
-                                        return $merchantIds;
         // 循环是为了保证排序
         foreach($merchantIds as $id){
             $merchants[] = Merchant::find($id);
